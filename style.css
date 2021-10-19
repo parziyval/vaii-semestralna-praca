@@ -1,5 +1,6 @@
 body {
-
+    background-color: #212529;
+    color: white;
 }
 
 p {
@@ -35,10 +36,11 @@ div.desc {
     transform: scale(1.1);
 }
 
-.text-center {
-    text-align: center;
-    margin-bottom: 20px;
+.container-bg {
+    background-color: darkgray;
 }
+
+
 
 .gradient-bg {
     background-color: #bc1888;
