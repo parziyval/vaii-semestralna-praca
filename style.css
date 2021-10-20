@@ -11,10 +11,16 @@ p {
     font-weight: bold;
 }
 
-img.galeria-thumbnail {
-    object-fit: cover;
+.galeria-thumbnail{
+    width : 500px;
+    height: 100%;
+    overflow: auto;
+}
+
+.galeria-thumbnail img{
     width: 100%;
-    height: 250px;
+    height: auto;
+    display: block;
 }
 
 div.desc {
@@ -31,7 +37,7 @@ div.desc {
 }
 
 @media screen and (max-width: 500px) {
-    footer {
+    .footer-hide {
         display: none;
     }
 }
