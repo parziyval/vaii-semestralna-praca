@@ -101,11 +101,7 @@ if(isset($_POST['button_save'])) {
             </div>
             <p class="text-muted">Polia označené <strong>*</strong> sú povinné</p>
             <input class="btn btn-success" type="submit" name="button_save" value="Uložiť">
-            <!-- tento form tu musi byt inak nejde ten link pod tym -->
-            <form action="kniha_navstev.php">
-
-            </form>
-            <a href="kniha_navstev.php"><button class="btn btn-secondary my-3" name="button_back" formnovalidate>Zrušiť</button></a>
+            <a href="kniha_navstev.php" class="btn btn-secondary my-3" role="button">Zrušiť</a>
 
         </form>
 
