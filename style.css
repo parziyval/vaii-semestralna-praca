@@ -3,6 +3,10 @@ body {
     color: white;
 }
 
+.cierne-pismo {
+    color:black;
+}
+
 p {
     font-size: 1.2em;
 }
