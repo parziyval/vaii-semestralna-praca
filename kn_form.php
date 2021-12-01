@@ -13,26 +13,37 @@ if(isset($_GET['upravit'])) {
     $row = null;
 }
 
-if(isset($_POST['button_save'])) {
-    $meno = strip_tags($_POST['meno']);
-    $text = strip_tags($_POST['text']);
+$name_input_error = '';
 
-    try {
-        if($id != null) {
-            if($app->update($id, $meno, $text)) {
-                $app->redirect("kniha_navstev.php?updated");
-            }
-        } else {
-            if($app->insert($meno, $text)) {
-                $app->redirect("kniha_navstev.php?inserted");
+if(isset($_POST['button_save'])) {
+    if(preg_match("/^[a-zA-Z ]*$/", $_POST["meno"])) {
+        $meno = strip_tags($_POST['meno']);
+        $text = strip_tags($_POST['text']);
+        $meno = $app->checkInput($meno);
+        $text = $app->checkInput($text);
+
+        try {
+            if($id != null) {
+                if($app->update($id, $meno, $text)) {
+                    $app->redirect("kniha_navstev.php?updated");
+                }
             } else {
-                $app->redirect("kniha_navstev.php?error");
+                if($app->insert($meno, $text)) {
+                    $app->redirect("kniha_navstev.php?inserted");
+                } else {
+                    $app->redirect("kniha_navstev.php?error");
+                }
             }
+        } catch(PDOException $e) {
+            echo $e->getMessage();
         }
-    } catch(PDOException $e) {
-        echo $e->getMessage();
+    } else {
+        $name_input_error = "<p>V mene sú povolené len písmená a medzery!</p>";
     }
+
 }
+
+
 ?>
 
 <!DOCTYPE html>
@@ -54,7 +65,7 @@ if(isset($_POST['button_save'])) {
 </head>
 <body>
 <nav class="navbar navbar-expand-sm navbar-dark bg-dark mb-5">
-    <div class="container-fluid">
+    <div class="container">
         <a class="navbar-brand" href="index.html">Penzión Chameleón</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -90,15 +101,10 @@ if(isset($_POST['button_save'])) {
 <div class="container">
     <div class="row">
         <form method="POST">
-            <!-- <div class="form-group my-3">
+            <div class="form-group my-3">
                 <label for="meno">Meno *</label>
                 <input type="text" name="meno" id="meno" class="form-control" placeholder="Zadajte meno" value="<?php echo ($row == null) ? "" : $row['meno'];?>" required maxlength="50">
-            </div> -->
-
-
-            <div class="form-group my-3">
-                <label for="menoServerValidation">Meno *</label>
-                <input type="text" name="meno" id="menoServerValidation" class="form-control is-valid" placeholder="Zadajte meno" value="<?php echo ($row == null) ? "" : $row['meno'];?>" required maxlength="50">
+                <span class="text-danger"><?php echo $name_input_error; ?></span>
             </div>
 
 
@@ -106,6 +112,7 @@ if(isset($_POST['button_save'])) {
                 <label for="text">Text príspevku *</label>
                 <textarea name="text" id="text" class="form-control" placeholder="Zadajte text" required maxlength="2000"><?php echo ($row == null) ? "" : $row['text'];?></textarea>
             </div>
+
             <p class="text-muted">Polia označené <strong>*</strong> sú povinné</p>
             <input class="btn btn-success" type="submit" name="button_save" value="Uložiť">
             <a href="kniha_navstev.php" class="btn btn-secondary my-3" role="button">Zrušiť</a>

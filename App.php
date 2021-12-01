@@ -81,4 +81,12 @@ class App
                     </div>
                   HTML;
     }
+
+    public function checkInput($input)
+    {
+        $input = trim($input);
+        $input = stripslashes($input);
+        $input = htmlspecialchars($input);
+        return $input;
+    }
 }
