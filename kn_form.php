@@ -90,10 +90,17 @@ if(isset($_POST['button_save'])) {
 <div class="container">
     <div class="row">
         <form method="POST">
-            <div class="form-group my-3">
+            <!-- <div class="form-group my-3">
                 <label for="meno">Meno *</label>
                 <input type="text" name="meno" id="meno" class="form-control" placeholder="Zadajte meno" value="<?php echo ($row == null) ? "" : $row['meno'];?>" required maxlength="50">
+            </div> -->
+
+
+            <div class="form-group my-3">
+                <label for="menoServerValidation">Meno *</label>
+                <input type="text" name="meno" id="menoServerValidation" class="form-control is-valid" placeholder="Zadajte meno" value="<?php echo ($row == null) ? "" : $row['meno'];?>" required maxlength="50">
             </div>
+
 
             <div class="form-group my-3">
                 <label for="text">Text príspevku *</label>
