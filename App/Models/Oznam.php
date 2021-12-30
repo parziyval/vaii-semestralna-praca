@@ -1,13 +1,26 @@
 <?php
 
-class Prispevok
-{
-    public function __construct(private int $id = 0,
-                                private string $meno = "",
-                                private string $text="",
-                                private string $datum="")
-    {
+namespace App\Models;
 
+class Oznam extends \App\Core\Model
+{
+    public int $id;
+    public string $nadpis;
+    public string $text;
+    public string $datum;
+
+    public function __construct()
+    {
+    }
+
+    static public function setDbColumns()
+    {
+        return ["id", "nadpis", "text", "datumPridania"];
+    }
+
+    static public function setTableName()
+    {
+        return "oznam";
     }
 
     /**
@@ -24,22 +37,6 @@ class Prispevok
     public function setId(int $id): void
     {
         $this->id = $id;
-    }
-
-    /**
-     * @return string
-     */
-    public function getMeno(): string
-    {
-        return $this->meno;
-    }
-
-    /**
-     * @param string $meno
-     */
-    public function setMeno(string $meno): void
-    {
-        $this->meno = $meno;
     }
 
     /**
@@ -74,4 +71,19 @@ class Prispevok
         $this->datum = $datum;
     }
 
+    /**
+     * @return string
+     */
+    public function getNadpis(): string
+    {
+        return $this->nadpis;
+    }
+
+    /**
+     * @param string $nadpis
+     */
+    public function setNadpis(string $nadpis): void
+    {
+        $this->nadpis = $nadpis;
+    }
 }

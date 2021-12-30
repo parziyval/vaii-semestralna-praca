@@ -1,6 +1,6 @@
 body {
-    background-color: #212529;
-    color: white;
+    /*background-color: #212529;
+    color: white;*/
 }
 
 .cierne-pismo {
@@ -16,16 +16,30 @@ p {
 }
 
 .galeria-thumbnail{
-    width : 500px;
+    width : 400px;
     height: 100%;
     overflow: auto;
 }
 
+/*
 .galeria-thumbnail img{
     width: 100%;
     height: auto;
     display: block;
+}*/
+.galeria-thumbnail img {
+    -webkit-filter: brightness(100%);
 }
+
+.galeria-thumbnail img:hover {
+    -webkit-filter: brightness(70%);
+    -webkit-transition: all 1s ease;
+    -moz-transition: all 1s ease;
+    -o-transition: all 1s ease;
+    -ms-transition: all 1s ease;
+    transition: all 1s ease;
+}
+
 
 div.desc {
     padding: 15px;
