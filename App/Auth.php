@@ -8,7 +8,7 @@ class Auth
 {
     public static function prihlas($email, $password)
     {
-        if(!self::jeEmailPlatny($email) || $email == "" || $password == "") {
+        if(!filter_var($email, FILTER_VALIDATE_EMAIL) && $email != "" && $password != "") {
             return false;
         }
 
@@ -54,10 +54,5 @@ class Auth
     {
         $novyUzivatel = new Uzivatel($email,$meno,$priezvisko,password_hash($heslo,PASSWORD_DEFAULT),$rola);
         $novyUzivatel->save();
-    }
-
-    public static function jeEmailPlatny($email)
-    {
-        return (bool)preg_match("/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix", $email);
     }
 }
