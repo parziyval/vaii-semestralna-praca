@@ -35,6 +35,7 @@ class GaleriaController extends AControllerRedirect
         return $this->html(
             [
                 "obrazky" => $obrazky,
+                "album_id" => $this->request()->getValue("album_id"),
                 "sprava" => $this->request()->getValue("sprava"),
                 "sprava_typ" => $this->request()->getValue("sprava_typ")
             ]);
@@ -147,13 +148,12 @@ class GaleriaController extends AControllerRedirect
                 $mazanyAlbum = Album::getAll("id = ?", [$album_id]);
                 if(sizeof($mazanyAlbum) == 1) {
                     $obrazky = Obrazok::getAll("album_id = ?", [$album_id]);
+                    //najprv sa musia vymazat vsetky obrazky z albumu az potom sa moze vymazat album
                     for ($i = 0; $i < sizeof($obrazky); $i++) {
                         $obrazokCesta = Configuration::UPLOAD_DIR . $obrazky[$i]->getSubor();
                         unlink($obrazokCesta);
                         $obrazky[$i]->delete();
                     }
-                    //$query = Connection::connect()->prepare("DELETE FROM obrazok WHERE album_id = ?");
-                    //$query->execute([$album_id]);
 
                     $thumbnailCesta = Configuration::UPLOAD_DIR . $mazanyAlbum[0]->getThumbnail();
                     unlink($thumbnailCesta);
@@ -168,7 +168,6 @@ class GaleriaController extends AControllerRedirect
         } else {
             $this->redirect("home");
         }
-
     }
 
     public function upravAlbumForm()
@@ -218,20 +217,22 @@ class GaleriaController extends AControllerRedirect
                     //TODO: unlink($staryThumbnailCesta);
                     move_uploaded_file($_FILES['albumSubor']['tmp_name'], $path);
                 }
+
+                try {
+                    $stmt = Connection::connect()->prepare("UPDATE album SET popisok=?, thumbnail=? WHERE id=?");
+                    $stmt->execute([$novyPopisok,$novyThumbnailSubor,$album_id]);
+                    $this->redirect("galeria","index",["index_sprava" => "Album bol úspešne upravený!", "index_sprava_typ" => "success"]);
+                    return;
+                } catch (PDOException $e) {
+                    $this->redirect("galeria", "upravAlbumForm", ["form_sprava" => "Chyba v databáze. Počkajte chvíľu a skúste to znova, prosím", "form_sprava_typ" => "danger", "album_id" => $album_id]);
+                    return;
+                }
+
             } else {
                 $this->redirect("galeria","pridajAlbumForm",["form_sprava" => "Nahrávanie súboru zlyhalo. Počkajte chvíľu a skúste to znova.", "form_sprava_typ" => "danger"]);
                 return;
             }
 
-            try {
-                $stmt = Connection::connect()->prepare("UPDATE album SET popisok=?, thumbnail=? WHERE id=?");
-                $stmt->execute([$novyPopisok,$novyThumbnailSubor,$album_id]);
-                $this->redirect("galeria","index",["index_sprava" => "Album bol úspešne upravený!", "index_sprava_typ" => "success"]);
-                return;
-            } catch (PDOException $e) {
-                $this->redirect("galeria", "upravAlbumForm", ["form_sprava" => "Chyba v databáze. Počkajte chvíľu a skúste to znova, prosím", "form_sprava_typ" => "danger", "album_id" => $album_id]);
-                return;
-            }
         } else { //ak sa neupravuje thumbnail
             try {
                 $stmt = Connection::connect()->prepare("UPDATE album SET popisok=? WHERE id=?");
@@ -259,7 +260,33 @@ class GaleriaController extends AControllerRedirect
         }
     }
 
+    public function pridajObrazky()
+    {
+        if(Auth::jePrihlaseny() && Auth::getRola() == "admin") {
+            $pocet = count($_FILES['obrazkySubory']['name']);
 
+            $chyba = "";
+            for( $i=0 ; $i < $pocet ; $i++ ) {
+                $tmpCesta = $_FILES['obrazkySubory']['tmp_name'][$i];
+
+                if ($tmpCesta !== ""){
+                    $name = $_FILES['obrazkySubory']['name'][$i];
+                    $novaCesta = Configuration::UPLOAD_DIR . $name;
+                    $album_id = $this->request()->getValue("album_id");
+                    if(move_uploaded_file($tmpCesta, $novaCesta)) {
+                       try {
+                           $obrazok = new Obrazok(subor: $name, album_id: intval($album_id));
+                       } catch (PDOException $e) {
+
+                       }
+                    }
+                }
+            }
+            $this->redirect("galeria","zobrazAlbum",["sprava" => "Obrázky úspešne pridané!", "sprava_typ" => "success"]);
+        } else {
+            $this->redirect("home");
+        }
+    }
 
     public function vymazObrazok()
     {
@@ -280,7 +307,5 @@ class GaleriaController extends AControllerRedirect
             $this->redirect("home");
         }
     }
-
-
 
 }

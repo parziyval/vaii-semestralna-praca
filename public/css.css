@@ -74,3 +74,11 @@ div.desc {
     font-size: 1.3em;
     margin-bottom: 10px;
 }
+
+.success input {
+    border-color: limegreen;
+}
+
+.error input {
+    border-color: red;
+}

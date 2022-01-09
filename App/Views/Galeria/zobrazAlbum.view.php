@@ -10,7 +10,7 @@ use App\Auth; ?>
 <?php } ?>
 
 <?php if(Auth::jePrihlaseny() && Auth::getRola() == "admin") { ?>
-    <a href="?c=galeria&a=pridajObrazkyForm" class="btn btn-primary mb-2"><i class="bi-plus-square"></i> Pridať fotky</a>
+    <a href="?c=galeria&a=pridajObrazkyForm&album_id=<?=$data["album_id"]?>" class="btn btn-primary mb-2"><i class="bi-plus-square"></i> Pridať fotky</a>
 <?php } ?>
 
 <div class="row">
