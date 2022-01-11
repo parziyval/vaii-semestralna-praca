@@ -4,12 +4,13 @@ namespace App\Models;
 
 class Oznam extends \App\Core\Model
 {
-    public int $id;
-    public string $nadpis;
-    public string $text;
-    public string $datum;
 
-    public function __construct()
+    public function __construct(
+        public int $id = 0,
+        public string $nadpis = "",
+        public string $text = "",
+        public string $datum = ""
+    )
     {
     }
 

@@ -4,20 +4,31 @@ namespace App\Models;
 
 class Uzivatel extends \App\Core\Model
 {
-    public string $email;
+    public function __construct(
+        public string $email = "",
+        public string $meno = "",
+        public string $priezvisko = "",
+        public string $heslo = "",
+        public string $rola = ""
+    )
+    {
+
+    }
+
+    /*public string $email;
     public string $meno;
     public string $priezvisko;
     public string $heslo;
     public string $rola;
 
-    public function __construct($email = "", $meno = "", $priezvisko="", $heslo="", $rola="")
+    public function __construct($email = "", $meno = "", $priezvisko = "", $heslo = "", $rola = "")
     {
         $this->email = $email;
         $this->meno = $meno;
         $this->priezvisko = $priezvisko;
         $this->heslo = $heslo;
         $this->rola = $rola;
-    }
+    }*/
 
     static public function setDbColumns()
     {
