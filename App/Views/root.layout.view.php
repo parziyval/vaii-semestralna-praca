@@ -20,7 +20,7 @@
 </head>
 <body>
 <nav class="navbar navbar-expand-sm navbar-dark bg-dark mb-2">
-    <div class="container">
+    <div class="container content">
         <a class="navbar-brand" href="?c=home">Penzión Chameleón</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -96,13 +96,19 @@
     </div>
 </div>
 
+<footer class="footer">
+    &copy; 2021 Adam Parimucha <br>
+</footer>
+
+
+<!--
 <div class="container footer-hide">
     <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
         <div class="col-md-4 d-flex align-items-center">
             &copy; 2021 Adam Parimucha
         </div>
     </footer>
-</div>
+</div> -->
 
 </body>
 </html>
