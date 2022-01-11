@@ -1,6 +1,13 @@
 <?php /** @var Array $data */ ?>
 
-<form method="post" action="?c=galeria&a=pridajObrazky&album_id=" enctype="multipart/form-data">
+<?php if($data["sprava"] != "") { ?>
+    <div class="alert alert-<?=$data["sprava_typ"]?> alert-dismissible">
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        <?= $data["sprava"] ?>
+    </div>
+<?php } ?>
+
+<form method="post" action="?c=galeria&a=pridajObrazky&album_id=<?=$data["album_id"]?>" enctype="multipart/form-data">
     <h1>Pridanie obrázkov do albumu</h1>
 
     <div class="form-group">

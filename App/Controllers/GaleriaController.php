@@ -69,7 +69,7 @@ class GaleriaController extends AControllerRedirect
             }
 
             if($_FILES['albumSubor']['name'] !== "" && $_FILES['albumSubor']['error'] == UPLOAD_ERR_OK) {
-                $chyba = $this->checkSubor("albumSubor");
+                $chyba = $this->checkSubor("albumSubor", -1);
 
                 if($chyba !== "") {
                     $this->redirect("galeria","pridajAlbumForm",["form_sprava" => "Chyba pri nahrávaní súboru<br>" . $chyba, "form_sprava_typ" => "danger"]);
@@ -94,31 +94,50 @@ class GaleriaController extends AControllerRedirect
         }
     }
 
-    private function checkSubor($nazovSuboru) {
+    /*
+     * index je -1 ak je súbor len jeden, alebo nezáporný ak je súborov viacero
+     */
+    private function checkSubor(string $nazovSuboru, int $index) {
         $chyba = "";
 
-        $name = $_FILES[$nazovSuboru]["name"];
+        if($index < 0) {
+            $name = $_FILES[$nazovSuboru]["name"];
+        } else {
+            $name = $_FILES[$nazovSuboru]["name"][$index];
+        }
         $path = Configuration::UPLOAD_DIR . $name;
         $pripona = strtolower(pathinfo($path,PATHINFO_EXTENSION));
 
         if(strlen($name) > 255) {
-            $chyba .= "Meno súboru nesmie byť dlhšie ako 255 znakov <br>";
+            $chyba .= $name . ": Meno súboru nesmie byť dlhšie ako 255 znakov <br>";
         }
 
-        if(getimagesize($_FILES[$nazovSuboru]["tmp_name"]) == false) {
-            $chyba .= "Súbor nie je obrázok <br>";
+        if($index < 0) {
+            if(getimagesize($_FILES[$nazovSuboru]["tmp_name"]) == false) {
+                $chyba .= $name . ": Súbor nie je obrázok <br>";
+            }
+        } else {
+            if(getimagesize($_FILES[$nazovSuboru]["tmp_name"][$index]) == false) {
+                $chyba .= $name . ": Súbor nie je obrázok <br>";
+            }
         }
 
-        if (($_FILES[$nazovSuboru]["size"] > Configuration::MAX_UPLOAD_SIZE) == true) {
-            $chyba .= "Súbor je príliš veľký, maximálna veľkosť je" . ini_get("upload_max_filesize") . " <br>";
+        if($index < 0) {
+            if (($_FILES[$nazovSuboru]["size"] > Configuration::MAX_UPLOAD_SIZE) == true) {
+                $chyba .= $name . ": Súbor je príliš veľký, maximálna veľkosť je" . ini_get("upload_max_filesize") . " <br>";
+            }
+        } else {
+            if (($_FILES[$nazovSuboru]["size"][$index] > Configuration::MAX_UPLOAD_SIZE) == true) {
+                $chyba .= $name . ": Súbor je príliš veľký, maximálna veľkosť je" . ini_get("upload_max_filesize") . " <br>";
+            }
         }
 
         if (file_exists($path) == true) {
-            $chyba .= "Súbor so zadaným menom už existuje<br>";
+            $chyba .= $name . ": Súbor so zadaným menom už existuje<br>";
         }
 
         if($pripona != "jpg" && $pripona != "png" && $pripona != "jpeg") {
-            $chyba .= "Povolené sú iba súbory typu JPG, JPEG a PNG<br>";
+            $chyba .= $name . ": Povolené sú iba súbory typu JPG, JPEG a PNG<br>";
         }
 
         return $chyba;
@@ -205,7 +224,7 @@ class GaleriaController extends AControllerRedirect
 
         if ($_FILES['albumSubor']['name'] !== "") {
             if ($_FILES['albumSubor']['error'] == UPLOAD_ERR_OK) {
-                $chyba = $this->checkSubor("albumSubor");
+                $chyba = $this->checkSubor("albumSubor", -1);
 
                 if ($chyba !== "") {
                     $this->redirect("galeria", "upravAlbumForm", ["form_sprava" => "Chyba pri nahrávaní súboru<br>" . $chyba, "form_sprava_typ" => "danger", "album_id" => $album_id]);
@@ -214,7 +233,7 @@ class GaleriaController extends AControllerRedirect
                     $name = $_FILES['albumSubor']['name'];
                     $path = Configuration::UPLOAD_DIR . $name;
                     $staryThumbnailCesta = Configuration::UPLOAD_DIR . Album::getOne($album_id)->getThumbnail();
-                    //TODO: unlink($staryThumbnailCesta);
+                    unlink($staryThumbnailCesta);
                     move_uploaded_file($_FILES['albumSubor']['tmp_name'], $path);
                 }
 
@@ -253,7 +272,8 @@ class GaleriaController extends AControllerRedirect
             return $this->html(
                 [
                     "sprava" => $this->request()->getValue("sprava"),
-                    "sprava_typ" => $this->request()->getValue("sprava_typ")
+                    "sprava_typ" => $this->request()->getValue("sprava_typ"),
+                    "album_id" => $this->request()->getValue("album_id")
                 ]);
         } else {
             $this->redirect("home");
@@ -263,26 +283,39 @@ class GaleriaController extends AControllerRedirect
     public function pridajObrazky()
     {
         if(Auth::jePrihlaseny() && Auth::getRola() == "admin") {
-            $pocet = count($_FILES['obrazkySubory']['name']);
+            $pocet = count($_FILES["obrazkySubory"]["name"]);
+            $album_id = $this->request()->getValue("album_id");
 
             $chyba = "";
             for( $i=0 ; $i < $pocet ; $i++ ) {
-                $tmpCesta = $_FILES['obrazkySubory']['tmp_name'][$i];
+                $chyba .= $this->checkSubor("obrazkySubory",$i);
+            }
 
-                if ($tmpCesta !== ""){
-                    $name = $_FILES['obrazkySubory']['name'][$i];
-                    $novaCesta = Configuration::UPLOAD_DIR . $name;
-                    $album_id = $this->request()->getValue("album_id");
-                    if(move_uploaded_file($tmpCesta, $novaCesta)) {
-                       try {
-                           $obrazok = new Obrazok(subor: $name, album_id: intval($album_id));
-                       } catch (PDOException $e) {
+            if($chyba == "") {
+                for( $i=0 ; $i < $pocet ; $i++ ) {
+                    $tmpCesta = $_FILES['obrazkySubory']['tmp_name'][$i];
 
-                       }
+                    if ($tmpCesta !== ""){
+                        $name = $_FILES['obrazkySubory']['name'][$i];
+                        $novaCesta = Configuration::UPLOAD_DIR . $name;
+                        //$album_id = $this->request()->getValue("album_id");
+                        if(move_uploaded_file($tmpCesta, $novaCesta)) {
+                            try {
+                                $obrazok = new Obrazok(subor: $name, album_id: intval($album_id));
+                                $obrazok->save();
+                            } catch (PDOException $e) {
+                                $this->redirect("galeria", "zobrazAlbum", ["album_id" => $album_id, "sprava" => "Chyba databázy", "sprava_typ" => "danger"]);
+                                return;
+                            }
+                        }
                     }
                 }
+            } else {
+                $this->redirect("galeria", "pridajObrazkyForm", ["album_id" => $album_id, "sprava" => "Chyba pri nahrávaní súboru<br>" . $chyba, "sprava_typ" => "danger"]);
+                return;
             }
-            $this->redirect("galeria","zobrazAlbum",["sprava" => "Obrázky úspešne pridané!", "sprava_typ" => "success"]);
+
+            $this->redirect("galeria","zobrazAlbum",["album_id" => $album_id, "sprava" => "Obrázky úspešne pridané!", "sprava_typ" => "success"]);
         } else {
             $this->redirect("home");
         }
@@ -297,7 +330,7 @@ class GaleriaController extends AControllerRedirect
                 $obrazokCesta = Configuration::UPLOAD_DIR . $obrazok->getSubor();
                 $album_id = $obrazok->getAlbumId();
                 $obrazok->delete();
-                //TODO: unlink($obrazokCesta);
+                unlink($obrazokCesta);
                 $this->redirect("galeria", "zobrazAlbum", ["album_id" => $album_id, "sprava" => "Obrázok bol úspešne vymazaný!", "sprava_typ" => "success"]);
             } catch (PDOException $e) {
                 $this->redirect("galeria", "zobrazAlbum", ["album_id" => $album_id, "sprava" => "Chyba databázy", "sprava_typ" => "danger"]);
