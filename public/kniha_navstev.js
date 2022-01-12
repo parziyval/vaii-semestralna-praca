@@ -1,9 +1,13 @@
 class KnihaNavstev {
     pridajPrispevok() {
-        console.log("pridaj");
         let text = document.getElementById("kn_text").value;
         if(text.length == 0) {
             alert("Vyplňte text príspevku.");
+            return;
+        }
+
+        if(text.length > 2000) {
+            alert("Text príspevku je príliš dlhý. (Max. dĺžka je 2000 znakov)");
             return;
         }
 
@@ -18,9 +22,15 @@ class KnihaNavstev {
         })
             .then(response => response.json())
             .then(response => {
-                if(response === "error") {
+                if(response === "error_prazdny_text") {
                     alert("Vyplňte text príspevku.");
                 }
+
+                if(response === "error_dlhy_text") {
+                    alert("Text príspevku je príliš dlhý. (Max. dĺžka je 2000 znakov)");
+                }
+
+
             });
     }
 
@@ -32,7 +42,7 @@ class KnihaNavstev {
                 for(let prispevok of data) {
                     html = "<div class=\"card my-3 cierne-pismo\">\n" +
                         "                    <div class=\"card-body\">\n" +
-                        "                        <h5 class=\"card-title\">" + prispevok.uzivatel_email  + "</h5>\n" +
+                        "			            <h5 class=\"card-title\">" + prispevok.meno  + " " + prispevok.priezvisko + "</h5>\n" +
                         "                        <h6 class=\"card-subtitle mb-2 text-muted\">" + prispevok.datum_pridania + "</h6>\n" +
                         "                        <p class=\"card-text\">" + prispevok.text + "</p>\n" +
                         "                    </div>\n" +
@@ -46,7 +56,7 @@ class KnihaNavstev {
     zacniNacitavatPrispevky() {
         setInterval(()=> {
             this.getVsetkyPrispevky()
-        }, 1000);
+        }, 10000);
     }
 }
 

@@ -5,6 +5,7 @@ namespace App\Models;
 class Uzivatel extends \App\Core\Model
 {
     public function __construct(
+        public int $id = 0,
         public string $email = "",
         public string $meno = "",
         public string $priezvisko = "",
@@ -32,7 +33,7 @@ class Uzivatel extends \App\Core\Model
 
     static public function setDbColumns()
     {
-        return ["email","meno","priezvisko","heslo","rola"];
+        return ["id","email","meno","priezvisko","heslo","rola"];
     }
 
     static public function setTableName()
@@ -134,5 +135,21 @@ class Uzivatel extends \App\Core\Model
     public function setRola(string $rola): void
     {
         $this->rola = $rola;
+    }
+
+    /**
+     * @return int
+     */
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param int $id
+     */
+    public function setId(int $id): void
+    {
+        $this->id = $id;
     }
 }
