@@ -9,7 +9,7 @@ class Oznam extends \App\Core\Model
         public int $id = 0,
         public string $nadpis = "",
         public string $text = "",
-        public string $datum = ""
+        public string $datumPridania = ""
     )
     {
     }
@@ -56,21 +56,7 @@ class Oznam extends \App\Core\Model
         $this->text = $text;
     }
 
-    /**
-     * @return string
-     */
-    public function getDatum(): string
-    {
-        return $this->datum;
-    }
 
-    /**
-     * @param string $datum
-     */
-    public function setDatum(string $datum): void
-    {
-        $this->datum = $datum;
-    }
 
     /**
      * @return string
@@ -86,5 +72,21 @@ class Oznam extends \App\Core\Model
     public function setNadpis(string $nadpis): void
     {
         $this->nadpis = $nadpis;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDatumPridania(): string
+    {
+        return $this->datumPridania;
+    }
+
+    /**
+     * @param string $datumPridania
+     */
+    public function setDatumPridania(string $datumPridania): void
+    {
+        $this->datumPridania = $datumPridania;
     }
 }

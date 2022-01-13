@@ -10,6 +10,12 @@
     <!-- jQuery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
+    <!-- dataTables -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap5.min.css">
+    <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap5.min.js"></script>
+    <script src="https://markcell.github.io/jquery-tabledit/assets/js/tabledit.min.js"></script>
+
     <script src="public/kniha_navstev.js"></script>
     <script src="public/adminedit.js"></script>
 
@@ -43,6 +49,10 @@
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
                     <a class="nav-link <?= $aktivna == "home" ? "active" : "" ?>" aria-current="page" href="?c=home">Domov</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link <?= $aktivna == "oznam" ? "active" : "" ?>" aria-current="page" href="?c=oznam">Oznamy</a>
                 </li>
 
                 <li class="nav-item">
@@ -112,6 +122,7 @@
 <footer class="footer">
     &copy; 2021 Adam Parimucha <br>
 </footer>
+
 
 
 <!--
