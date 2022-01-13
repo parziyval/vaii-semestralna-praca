@@ -111,10 +111,12 @@
     </div>
 </nav>
 
-<div class="container">
-    <div class="row">
-        <div class="col">
-            <?= $contentHTML ?>
+<div class="content">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <?= $contentHTML ?>
+            </div>
         </div>
     </div>
 </div>
