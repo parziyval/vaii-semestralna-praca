@@ -12,10 +12,11 @@ use App\Auth; ?>
 <?php if(Auth::jePrihlaseny() && Auth::getRola() == "admin") { ?>
     <a href="?c=galeria&a=pridajObrazkyForm&album_id=<?=$data["album_id"]?>" class="btn btn-primary mb-2"><i class="bi-plus-square"></i> Pridať fotky</a>
 <?php } ?>
+    <a href="?c=galeria" class="btn btn-secondary mb-2">Späť do galérie</a>
 
 <div class="row">
     <?php foreach ($data["obrazky"] as $obrazok) { ?>
-        <div class="col-12 col-md-6 col-lg-4">
+        <div class="col-12 col-md-6 col-lg-4 mb-4">
             <div class="card">
                 <img src="<?= \App\Config\Configuration::UPLOAD_DIR . $obrazok->getSubor()?>" class="card-img-top" alt="Obrázok albumu">
                 <?php if(Auth::jePrihlaseny() && Auth::getRola() == "admin") { ?>

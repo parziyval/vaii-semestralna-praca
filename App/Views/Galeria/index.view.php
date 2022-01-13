@@ -14,7 +14,7 @@ use App\Auth; ?>
 
 <div class="row">
     <?php foreach ($data["albumy"] as $album) { ?>
-        <div class="col-12 col-md-6 col-lg-4">
+        <div class="col-12 col-md-6 col-lg-4 mb-4">
             <div class="card">
                 <a href="?c=galeria&a=zobrazAlbum&album_id=<?= $album->getId() ?>">
                     <img src="<?= \App\Config\Configuration::UPLOAD_DIR . $album->getThumbnail()?>" class="card-img-top" alt="Thumbnail albumu">

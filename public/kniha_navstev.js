@@ -30,7 +30,13 @@ class KnihaNavstev {
                     alert("Text príspevku je príliš dlhý. (Max. dĺžka je 2000 znakov)");
                 }
 
+                if(response === "error_prazdne_meno") {
+                    alert("Meno je prázdne");
+                }
 
+                if(response === "error_prazdne_priezvisko") {
+                    alert("Priezvisko je prázdne");
+                }
             });
     }
 
@@ -56,7 +62,7 @@ class KnihaNavstev {
     zacniNacitavatPrispevky() {
         setInterval(()=> {
             this.getVsetkyPrispevky()
-        }, 10000);
+        }, 3000);
     }
 }
 

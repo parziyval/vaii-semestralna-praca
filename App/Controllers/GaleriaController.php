@@ -143,22 +143,6 @@ class GaleriaController extends AControllerRedirect
         return $chyba;
     }
 
-    private function jeSuborObrazok($nazovSuboru) {
-        return getimagesize($_FILES[$nazovSuboru]["tmp_name"]);
-    }
-
-    private function jeSuborPrilisVelky ($nazovSuboru, $maxVelkost) {
-        return $_FILES[$nazovSuboru]["size"] > $maxVelkost;
-    }
-
-    private function existujeSubor($cesta) {
-        return file_exists($cesta);
-    }
-
-    private function maSuborPlatnyFormat($pripona) {
-        return ($pripona == "jpg" || $pripona == "png" || $pripona == "jpeg");
-    }
-
     public function vymazAlbum()
     {
         if(Auth::jePrihlaseny() && Auth::getRola() == "admin") {
@@ -218,7 +202,7 @@ class GaleriaController extends AControllerRedirect
         }
 
         if(strlen($novyPopisok) > 50) {
-            $this->redirect("galeria","pridajAlbumForm",["form_sprava" => "Dĺžka popisku nesmie bzť väčšia ako 50 znakov", "form_sprava_typ" => "danger"]);
+            $this->redirect("galeria","pridajAlbumForm",["form_sprava" => "Dĺžka popisku nesmie byť väčšia ako 50 znakov", "form_sprava_typ" => "danger"]);
             return;
         }
 

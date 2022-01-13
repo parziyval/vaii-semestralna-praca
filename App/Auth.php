@@ -19,6 +19,7 @@ class Auth
             if(password_verify($password, $uzivatel[0]->getHeslo())) {
                 $_SESSION["email"] = $email;
                 $_SESSION["rola"] = $uzivatel[0]->getRola();
+                $_SESSION["id"] = $uzivatel[0]->getId();
                 return true;
             } else {
                 return false;
@@ -32,6 +33,7 @@ class Auth
     {
         unset($_SESSION["email"]);
         unset($_SESSION["rola"]);
+        unset($_SESSION["id"]);
         session_destroy();
     }
 
@@ -50,9 +52,14 @@ class Auth
         return (Auth::jePrihlaseny() ? $_SESSION["rola"] : " ");
     }
 
+    public static function getId()
+    {
+        return (Auth::jePrihlaseny() ? $_SESSION["id"] : " ");
+    }
+
     public static function registruj($email,$meno,$priezvisko,$heslo,$rola)
     {
-        $novyUzivatel = new Uzivatel($email,$meno,$priezvisko,password_hash($heslo,PASSWORD_DEFAULT),$rola);
+        $novyUzivatel = new Uzivatel(0, $email,$meno,$priezvisko,password_hash($heslo,PASSWORD_DEFAULT),$rola);
         $novyUzivatel->save();
     }
 }

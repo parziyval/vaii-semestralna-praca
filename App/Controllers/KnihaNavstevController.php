@@ -48,6 +48,14 @@ class KnihaNavstevController extends AControllerRedirect
                 return $this->json("error_dlhy_text");
             }
 
+            if($meno == "") {
+                return $this->json("error_prazdne_meno");
+            }
+
+            if($priezvisko == "") {
+                return $this->json("error_prazdne_priezvisko");
+            }
+
             $prispevok = new KnihaNavstevPrispevok(text: $text,
                 datum_pridania: date('Y-m-d H:i:s'),
                 uzivatel_id: $uzivatel_id,

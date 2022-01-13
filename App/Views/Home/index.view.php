@@ -54,16 +54,3 @@
     </div>
 </div>
 
-<div class="container mt-2">
-    <div class="row">
-        <?php foreach ($data["oznamy"] as $oznam) { ?>
-            <div class="col-4">
-                <div class="card">
-                    <h5 class="card-title cierne-pismo"> <?php echo $oznam->getNadpis() ?> </h5>
-                    <p class="card-text cierne-pismo"> <?php echo $oznam->getText() ?> </p>
-                    <a href="?c=oznam&a=oznam&oznamid=<?= $oznam->getId() ?>">Zobraz celý oznam</a>
-                </div>
-            </div>
-        <?php } ?>
-    </div>
-</div>

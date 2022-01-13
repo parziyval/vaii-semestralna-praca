@@ -9,7 +9,7 @@ use App\Auth; ?>
     <form method="post">
         <input type="hidden" id="uzivatel_email" name="uzivatel_email" value="<?= isset($SESSION["email"]) ? $_SESSION["email"] : "" ?>">
         <label for="kn_text">Text príspevku:</label>
-        <textarea id="kn_text" name="kn_text" rows="4" cols="100" required ></textarea>
+        <textarea id="kn_text" name="kn_text" rows="4" cols="100" maxlength="2000" required ></textarea>
         <div>
         <button class="btn btn-primary" id="kn_btn_odoslat">Odoslať</button>
         </div>
