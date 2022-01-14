@@ -18,6 +18,7 @@
 
     <script src="public/kniha_navstev.js"></script>
     <script src="public/adminedit.js"></script>
+    <script src="public/prehlad.js"></script>
 
 
     <!-- CSS only -->
@@ -67,6 +68,11 @@
                 <li class="nav-item">
                     <a class="nav-link <?= $aktivna == "adminedit" ? "active" : "" ?>" href="?c=adminedit">Editácia užívateľov</a>
                 </li>
+
+                <li class="nav-item">
+                    <a class="nav-link <?= $aktivna == "prehlad" ? "active" : "" ?>" href="?c=prehlad">Prehľad užívateľov</a>
+                </li>
+
                 <?php } ?>
 
                 <!--<li class="nav-item">
