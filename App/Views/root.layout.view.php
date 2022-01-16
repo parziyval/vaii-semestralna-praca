@@ -5,21 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title>Penzión Chameleón</title>
-
-
-    <!-- jQuery -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
-    <!-- dataTables -->
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap5.min.css">
-    <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap5.min.js"></script>
-    <script src="https://markcell.github.io/jquery-tabledit/assets/js/tabledit.min.js"></script>
-
-    <script src="public/kniha_navstev.js"></script>
-    <script src="public/adminedit.js"></script>
-    <script src="public/prehlad.js"></script>
-
+    <link rel="icon" type="image/x-icon" href="public/files/icon.png">
 
     <!-- CSS only -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
@@ -31,21 +17,28 @@
     <link rel="stylesheet" href="public/css.css">
 
 </head>
-<?php use App\Auth; ?>
+<?php
+    use App\Auth;
+
+    if(isset($_GET["c"])) {
+        $aktivna = $_GET["c"];
+        if(isset($_GET["a"])) {
+            $metoda = $_GET["a"];
+        } else {
+            $metoda = "";
+        }
+    } else {
+        $aktivna = "home";
+    }
+?>
 <body>
-<nav class="navbar navbar-expand-sm navbar-dark bg-dark mb-2">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-2">
     <div class="container content">
         <a class="navbar-brand" href="?c=home">Penzión Chameleón</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <?php
-            if(isset($_GET["c"])) {
-                $aktivna = $_GET["c"];
-            } else {
-                $aktivna = "home";
-            }
-        ?>
+
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
@@ -65,9 +58,6 @@
                 </li>
 
                 <?php if(Auth::jePrihlaseny() && Auth::getRola() == "admin") { ?>
-                <li class="nav-item">
-                    <a class="nav-link <?= $aktivna == "adminedit" ? "active" : "" ?>" href="?c=adminedit">Editácia užívateľov</a>
-                </li>
 
                 <li class="nav-item">
                     <a class="nav-link <?= $aktivna == "prehlad" ? "active" : "" ?>" href="?c=prehlad">Prehľad užívateľov</a>
@@ -90,11 +80,11 @@
             <?php if(!Auth::jePrihlaseny()) { ?>
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link <?= ($_GET["c"] == "auth" && $_GET["a"] == "loginForm") ? "active" : "" ?>" href="?c=auth&a=loginForm">Prihlásiť sa</a>
+                    <a class="nav-link <?= ($aktivna == "auth" &&  $metoda == "loginForm") ? "active" : "" ?>" href="?c=auth&a=loginForm">Prihlásiť sa</a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link <?= ($_GET["c"] == "auth" && $_GET["a"] == "registraciaForm") ? "active" : "" ?>" href="?c=auth&a=registraciaForm">Registrovať</a>
+                    <a class="nav-link <?= ($aktivna== "auth" && $metoda == "registraciaForm") ? "active" : "" ?>" href="?c=auth&a=registraciaForm">Registrovať</a>
                 </li>
             </ul>
 
@@ -127,7 +117,7 @@
     </div>
 </div>
 
-<footer class="footer">
+<footer class="footer footer-hide">
     &copy; 2021 Adam Parimucha <br>
 </footer>
 
