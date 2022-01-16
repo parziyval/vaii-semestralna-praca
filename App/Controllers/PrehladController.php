@@ -15,46 +15,47 @@ class PrehladController extends AControllerRedirect
     {
         return $this->html(
             [
-
+                "stlpec" => $this->request()->getValue("stlpec"),
+                "vzostupne" => $this->request()->getValue("vzostupne")
             ]);
     }
 
     public function dajZoradene()
     {
-        $pole = $this->request()->getValue("pole");
+        $stlpec = $this->request()->getValue("stlpec");
         $vzostupne = $this->request()->getValue("vzostupne");
         $uzivatelia = Uzivatel::getAll();
         if($vzostupne == "true") {
-            switch($pole) {
+            switch($stlpec) {
                 case "id":
                     usort($uzivatelia, function($a, $b) {return $a->getId() - $b->getId();});
                     break;
                 case "email":
-                    usort($uzivatelia, function($a, $b) {return strcmp($a->getEmail(), $b->getEmail());});
+                    usort($uzivatelia, function($a, $b) {return strcmp(strtolower($a->getEmail()), strtolower($b->getEmail()));});
                     break;
                 case "meno":
-                    usort($uzivatelia, function($a, $b) {return strcmp($a->getMeno(), $b->getMeno());});
+                    usort($uzivatelia, function($a, $b) {return strcmp(strtolower($a->getMeno()), strtolower($b->getMeno()));});
                     break;
                 case "priezvisko":
-                    usort($uzivatelia, function($a, $b) {return strcmp($a->getPriezvisko(), $b->getPriezvisko());});
+                    usort($uzivatelia, function($a, $b) {return strcmp(strtolower($a->getPriezvisko()), strtolower($b->getPriezvisko()));});
                     break;
                 default:
                     usort($uzivatelia, function($a, $b) {return $a->getId() - $b->getId();});
                     break;
             }
         } else if($vzostupne == "false") {
-            switch($pole) {
+            switch($stlpec) {
                 case "id":
                     usort($uzivatelia, function($a, $b) {return $b->getId() - $a->getId();});
                     break;
                 case "email":
-                    usort($uzivatelia, function($a, $b) {return strcmp($b->getEmail(), $a->getEmail());});
+                    usort($uzivatelia, function($a, $b) {return strcmp(strtolower($b->getEmail()), strtolower($a->getEmail()));});
                     break;
                 case "meno":
-                    usort($uzivatelia, function($a, $b) {return strcmp($b->getMeno(), $a->getMeno());});
+                    usort($uzivatelia, function($a, $b) {return strcmp(strtolower($b->getMeno()), strtolower($a->getMeno()));});
                     break;
                 case "priezvisko":
-                    usort($uzivatelia, function($a, $b) {return strcmp($b->getPriezvisko(), $a->getPriezvisko());});
+                    usort($uzivatelia, function($a, $b) {return strcmp(strtolower($b->getPriezvisko()), strtolower($a->getPriezvisko()));});
                     break;
                 default:
                     usort($uzivatelia, function($a, $b) {return $b->getId() - $a->getId();});
