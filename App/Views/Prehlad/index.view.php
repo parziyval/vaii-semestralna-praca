@@ -1,24 +1,19 @@
 <?php /** @var Array $data */ ?>
 
-<!--<table>
-    <tr>
-        <th>ID</th>
-        <th>Email</th>
-        <th>Meno</th>
-        <th>Priezvisko</th>
-        <th></th>
-    </tr>
-</table> -->
-<table>
-    <thead>
-        <tr>
-            <th id="zorad_id">ID</th>
-            <th id="zorad_email">Email</th>
-            <th id="zorad_meno">Meno</th>
-            <th id="zorad_priezvisko">Priezvisko</th>
-        </tr>
-    </thead>
-    <tbody id="tab_uzivatelia">
+<script src="public/prehlad.js"></script>
 
-    </tbody>
-</table>
+<div class="d-flex justify-content-center h-100">
+    <table class="table-responsive">
+        <thead>
+            <tr>
+                <th id="zorad_id">ID <i id="sipka_id" class="bi"></i></th>
+                <th id="zorad_email">Email <i id="sipka_email" class="bi"></th>
+                <th id="zorad_meno">Meno <i id="sipka_meno" class="bi"></th>
+                <th id="zorad_priezvisko">Priezvisko <i id="sipka_priezvisko" class="bi"></th>
+            </tr>
+        </thead>
+        <tbody id="tab_uzivatelia">
+
+        </tbody>
+    </table>
+</div>

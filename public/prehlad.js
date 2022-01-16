@@ -1,10 +1,41 @@
 class Prehlad {
-    nacitajTabulku(pole = "", vzostupne = "") {
+    constructor() {
+        this.lastVzostupne = null;
+        this.lastStlpec = "";
+    }
+
+    nacitajZoradenu(stlpec="") {
         let url_adresa = "?c=prehlad&a=dajZoradene";
-        if(pole != "" && vzostupne != "") {
-            url_adresa += "&pole=" + pole + "&vzostupne=" + vzostupne;
+        let vzostupne;
+        let lastStlpecId = "sipka_" + this.lastStlpec;
+        let currStlpecId = "sipka_" + stlpec;
+        this.lastStlpec = stlpec;
+
+        if(this.lastVzostupne == null) { //ak sa povodne nezoradovala, nastavi sa zoradenie na vzostupne
+            vzostupne = "true";
+            this.lastVzostupne = true;
+            document.getElementById(currStlpecId).classList.add("bi-caret-up-fill");
+        } else if(this.lastVzostupne) { //ak bola naposledy zoradovana vzostupne, nastavi sa zoradenia na zostupne
+            vzostupne = "false";
+            this.lastVzostupne = false;
+            document.getElementById(lastStlpecId).classList.remove("bi-caret-up-fill");
+            document.getElementById(currStlpecId).classList.add("bi-caret-down-fill");
+        } else { //if this.lastVzostupne == false //ak bola naposledy zoradovana zostupne, nastavi sa ze sa nebude zoradovat
+            vzostupne = ""
+            this.lastVzostupne = null;
+            document.getElementById(lastStlpecId).classList.remove("bi-caret-down-fill");
         }
-        fetch("?c=prehlad&a=dajZoradene")
+
+        if(stlpec != "" && vzostupne != "") {
+            url_adresa += "&stlpec=" + stlpec + "&vzostupne=" + vzostupne;
+        }
+
+        this.nacitajTabulku(url_adresa);
+
+    }
+
+    nacitajTabulku(url_adresa) {
+        fetch(url_adresa)
             .then(response => response.json())
             .then(data => {
                 let html = "";
@@ -24,13 +55,21 @@ class Prehlad {
 window.onload = function() {
     var prehlad = new Prehlad();
 
-    prehlad.nacitajTabulku();
+    prehlad.nacitajTabulku("?c=prehlad&a=dajZoradene");
 
-    /*document.getElementById('zorad_email').onclick = () => {
-        prehlad.nacitajTabulku("email","false");
-    }*/
+    document.getElementById('zorad_id').onclick = () => {
+        prehlad.nacitajZoradenu("id");
+    }
 
-    /*document.getElementById("kn_btn_odoslat").onclick = () => {
-        kn.pridajPrispevok();
-    }*/
+    document.getElementById('zorad_email').onclick = () => {
+        prehlad.nacitajZoradenu("email");
+    }
+
+    document.getElementById('zorad_meno').onclick = () => {
+        prehlad.nacitajZoradenu("meno");
+    }
+
+    document.getElementById('zorad_priezvisko').onclick = () => {
+        prehlad.nacitajZoradenu("priezvisko");
+    }
 }
