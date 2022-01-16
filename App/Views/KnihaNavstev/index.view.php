@@ -1,6 +1,8 @@
 <?php /** @var Array $data */
 use App\Auth; ?>
 
+<script src="public/kniha_navstev.js"></script>
+
 <h1>Kniha návštev</h1>
 <p>Tu môžete zanechať svoje dojmy z návštevy nášho penziónu</p>
 
