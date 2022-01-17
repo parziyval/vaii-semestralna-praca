@@ -30,13 +30,13 @@
                         <input type="text" class="form-control" name="priezvisko" id="regInputPriezvisko" pattern="^[a-zA-Z ]*$" maxlength="50" required>
                     </div>
 
-                    <label for="inputPassword" class="form-label text-dark">Heslo<br>
+                    <label for="regInputPassword" class="form-label text-dark">Heslo<br>
                         <small class="text-secondary">(Musí mať 8-30 znakov, musí obsahovať aspoň jedno veľké písmeno, aspoň jedno malé písmeno a aspoň jednu číslicu)</small></label>
                     <div class="col-sm-10">
                         <input type="password" class="form-control" name="heslo" id="regInputPassword" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$" maxlength="30" required>
                     </div>
 
-                    <label for="inputPassword2" class="form-label text-dark">Znova zadajte heslo</label>
+                    <label for="regInputPassword2" class="form-label text-dark">Znova zadajte heslo</label>
                     <div class="col-sm-10 mb-3">
                         <input type="password" class="form-control" name="heslo2" id="regInputPassword2" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$" maxlength="30" required>
                     </div>

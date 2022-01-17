@@ -65,13 +65,15 @@
 
                 <?php } ?>
 
-                <!--<li class="nav-item">
+                <li class="nav-item">
                     <a class="nav-link" href="menu.html">Reštaurácia</a>
                 </li>
 
+                <!--
                 <li class="nav-item">
                     <a class="nav-link" href="kontakt.html">Kontakt</a>
-                </li> -->
+                </li>
+                -->
 
             </ul>
 

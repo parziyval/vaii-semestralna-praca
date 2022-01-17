@@ -8,22 +8,29 @@ class Prehlad {
         let url_adresa = "?c=prehlad&a=dajZoradene";
         let vzostupne;
         let lastStlpecId = "sipka_" + this.lastStlpec;
+        let lastHeaderId = "zorad_" + this.lastStlpec;
         let currStlpecId = "sipka_" + stlpec;
+        let currHeaderId = "zorad_" + stlpec;
         this.lastStlpec = stlpec;
+
 
         if(this.lastVzostupne == null) { //ak sa povodne nezoradovala, nastavi sa zoradenie na vzostupne
             vzostupne = "true";
             this.lastVzostupne = true;
             document.getElementById(currStlpecId).classList.add("bi-caret-up-fill");
+            document.getElementById(currHeaderId).classList.add("selected");
         } else if(this.lastVzostupne) { //ak bola naposledy zoradovana vzostupne, nastavi sa zoradenia na zostupne
             vzostupne = "false";
             this.lastVzostupne = false;
             document.getElementById(lastStlpecId).classList.remove("bi-caret-up-fill");
+            document.getElementById(lastHeaderId).classList.remove("selected");
             document.getElementById(currStlpecId).classList.add("bi-caret-down-fill");
+            document.getElementById(currHeaderId).classList.add("selected");
         } else { //if this.lastVzostupne == false //ak bola naposledy zoradovana zostupne, nastavi sa ze sa nebude zoradovat
             vzostupne = ""
             this.lastVzostupne = null;
             document.getElementById(lastStlpecId).classList.remove("bi-caret-down-fill");
+            document.getElementById(lastHeaderId).classList.remove("selected");
         }
 
         if(stlpec != "" && vzostupne != "") {

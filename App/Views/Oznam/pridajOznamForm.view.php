@@ -20,7 +20,7 @@
 
         <div class="mb-3">
             <label for="inputText" class="col-sm-2 col-form-label">Text oznamu</label>
-            <div class="col-lg-12">
+            <div class="col-12">
                 <textarea class="form-control" id="inputText" name="oznamText" maxlength="2000" required></textarea>
             </div>
         </div>
