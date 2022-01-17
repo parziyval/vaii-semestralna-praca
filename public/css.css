@@ -1,4 +1,4 @@
-/* https://css-tricks.com/couple-takes-sticky-footer/ */
+/* Zdroj: https://css-tricks.com/couple-takes-sticky-footer/ */
 
 html {
     height:100%;
@@ -98,7 +98,6 @@ small {
     font-size: 0.8em;
 }
 
-
 .menunazov {
     border-bottom: 1px solid white;
     padding-bottom: 5px;
@@ -112,6 +111,12 @@ small {
 .menupopis {
     font-size: 1.3em;
     margin-bottom: 10px;
+}
+
+.bottom-border {
+    border-bottom: 1px solid black;
+    margin-top: 5px;
+    margin-bottom: 5px;
 }
 
 .edit{

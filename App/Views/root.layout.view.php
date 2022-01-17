@@ -57,17 +57,16 @@
                     <a class="nav-link <?= $aktivna == "knihanavstev" ? "active" : "" ?>" href="?c=knihanavstev">Kniha návštev</a>
                 </li>
 
-                <?php if(Auth::jePrihlaseny() && Auth::getRola() == "admin") { ?>
+                <li class="nav-item">
+                    <a class="nav-link <?= $aktivna == "restauracia" ? "active" : "" ?>" href="?c=restauracia">Reštaurácia</a>
+                </li>
 
+                <?php if(Auth::jePrihlaseny() && Auth::getRola() == "admin") { ?>
                 <li class="nav-item">
                     <a class="nav-link <?= $aktivna == "prehlad" ? "active" : "" ?>" href="?c=prehlad">Prehľad užívateľov</a>
                 </li>
-
                 <?php } ?>
 
-                <li class="nav-item">
-                    <a class="nav-link" href="menu.html">Reštaurácia</a>
-                </li>
 
                 <!--
                 <li class="nav-item">
